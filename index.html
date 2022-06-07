@@ -1,287 +1,86 @@
 <html>
 
-<head>
+<body style="background-color:lightblue;">
 
 
-<style>
-
-
-html, body {
-
-
-   max-width: 100%;
-
-
-   overflow-y: hidden;
-
-
-	overflow-x: hidden;
-
-
-}
-
-</style>
-
-</head>
-
-
-<body style="background-color:black;">
-
-<h1 style="color:white;" id="demo"></h1>
-
-<canvas id="myCanvas" onload ="move()" onclick = "clickfunc()" onkeydown="uniKeyCode(event)" width="800" height="400" style="border:1px solid #d3d3d3;">
-
-
+<canvas id="myCanvas" onload = 'move()' onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
+    padding-right: 0;
+	
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 100px;
+    display: block;border:3px solid white;">
 </canvas>
 
+</body>
 
-<img id="piano"  style="visibility:hidden" src="https://i.imgur.com/1VPcV3B.png" alt="">
+<audio id="myAudio">
+  <source src="fire.mp3" type="audio/mp3">
+</audio>
 
-<img id="zimage"  style="visibility:hidden" src="https://i.imgur.com/ZHJQ25P.png" alt="">
-
-<img id="simage"  style="visibility:hidden" src="https://i.imgur.com/9D8d9z8.png" alt="">
-
-<img id="dimage"  style="visibility:hidden" src="https://i.imgur.com/5wn6eQI.png" alt="">
-
-<img id="gimage"  style="visibility:hidden" src="https://i.imgur.com/DBoYYrm.png" alt="">
-
-<img id="himage"  style="visibility:hidden" src="https://i.imgur.com/L9SBcfd.png" alt="">
-
-<img id="ximage"  style="visibility:hidden" src="https://i.imgur.com/GORxYbq.png" alt="">
-
-
+<audio id="myAudio2">
+  <source src="reloadsound.mp3" type="audio/mp3">
+</audio>
 
 <script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.font = "16px Arial";
 
+var firesound = document.getElementById("myAudio"); 
+
+var reloadsounds = document.getElementById("myAudio2"); 
+
+var canvasX = 0; 
+var canvasY = 0; 
+canvas.addEventListener("mousemove", function(e) { 
+    var cRect = canvas.getBoundingClientRect();              // Gets the CSS positions along with width/height
+    canvasX = Math.round(e.clientX - cRect.left);        // Subtract the 'left' of the canvas from the X/Y
+    canvasY = Math.round(e.clientY - cRect.top);         // positions to get make (0,0) the top left of the    
+});
 
 var myVar = setInterval(move, 20);
 
-var clicks = 0; 
+var fire = 0; 
+var fireTimer = 0; 
+
+var ammo = 7; 
+
+var reload = 0; 
+
+var reloadTimer = 0;
+
+function playAudio() { 
+  x.play(); 
+} 
+
+function pauseAudio() { 
+  x.pause(); 
+} 
+
 function clickfunc(){
 
 }
 
-
-function sound(src) {
-
-
-   this.sound = document.createElement("audio");
-
-
-   this.sound.src = src;
-
-
-   this.sound.setAttribute("preload", "auto");
-
-
-   this.sound.setAttribute("controls", "none");
-
-
-   this.sound.style.display = "none";
-
-
-   document.body.appendChild(this.sound);
-
-
-   this.play = function(){
-
-
-       this.sound.play();
-
-
-   }
-
-
-   this.stop = function(){
-
-
-       this.sound.pause();
-
-
-   }   
-
-
-}
-
-
-var keys = [];
-var c = document.getElementById("myCanvas");
-
-var ctx = c.getContext("2d");
-
-
-var w = window.innerWidth;
-
-
-var h = window.innerHeight;
-
-
-c.width  = w;
-
-
-c.height = h;
-
-
-var scalew = (w/800);
-
-
-var scaleh = (h-30)/(400);
-
-
-ctx.scale(scalew,scaleh);
-
-
-window.onresize = function(event) {
-
-
-w = window.innerWidth;
-
-
-h = window.innerHeight;
-
-
-
-scalew = (w/800);
-
-
-scaleh = (h-30)/(400);
-
-
-c.width  = w;
-
-
-c.height = h;
-
-
-ctx.scale(scalew,scaleh);
-
-
-};
-
-
-var keyArray = []; 
-
-var recTimer = 0; 
-
-var playbackTimer = 0; 
-
-var recArray = [];
-
-var playback = false;
-
-var keyDownColor = "#6eecff";
-
-
 function move() {
-//Background Image
-var bgimg = document.getElementById("gr");
 
-ctx.drawImage(piano, 0, 0,800,400);
-
-
-	
-if (keys[90] == true){
-ctx.fillStyle = keyDownColor;
-ctx.fillRect(36, 100, 30, 199);
-
+//BG
 ctx.fillStyle = "black";
-ctx.fillRect(59, 100, 20, 140);
-cNote.play();
-
-}
+ctx.fillRect(0,0, 800, 400);
 
 
-if (keys[83] == true){
-ctx.fillStyle = keyDownColor;
-ctx.fillRect(59, 100, 20, 140);
+ctx.fillStyle = "lightblue";
+ctx.fillRect(canvasX-5,canvasY-5, 10, 10);
 
-cSHARP.play();
-
-}
-
-	
-if (keys[88] == true){
-ctx.fillStyle = keyDownColor;
-ctx.fillRect(70, 100, 30, 199);
-
-ctx.fillStyle = "black";
-ctx.fillRect(94, 100, 20, 140);
-
-
-ctx.fillStyle = "black";
-ctx.fillRect(59, 100, 20, 140);
-dNote.play();
-
-}
-
-if (keys[68] == true){
-ctx.fillStyle = keyDownColor;
-ctx.fillRect(94, 100, 20, 140);
-
-dSHARP.play();
-
-}
-
-if (keys[67] == true){
-ctx.fillStyle = keyDownColor;
-ctx.fillRect(105, 100, 30, 199);
-
-ctx.fillStyle = "black";
-ctx.fillRect(94, 100, 20, 140);
-
-eNote.play();
-
-}
-
-
-ctx.fillStyle = "white";
-ctx.font = '30px serif';
-ctx.fillText(keyArray, 10,40);
-ctx.fillText(recArray, 10,90);
-
-ctx.fillText(recTimer, 10,390);
-
-ctx.fillText(playbackTimer, 300,390);
+ctx.font = "30px Arial";
+ctx.fillText("X: " + canvasX,3,30);
+ctx.fillText("Y: " + canvasY,3,60);
 
 
 }//End of FUNCTION
 
 
-//Move events
-
-
-document.onkeydown = function(e) {
-keys[e.keyCode] = true;
-
-keyArray.push(e.keyCode);
-
-cNote = new sound("sounds/cNote.mp3");
-
-cSHARP = new sound("sounds/cSHARP.mp3");
-
-dNote = new sound("sounds/dNote.mp3");
-dSHARP = new sound("sounds/dSHARP.mp3");
-
-eNote = new sound("sounds/eNote.mp3");
-
-
-//L = new sound("L.mp3");
-//postL = new sound("postL.mp3");
-
-
-}//End of keydown function
-
- document.onkeyup = function(e) {
-   keys[e.keyCode] = false;
- }
-
-
 </script>
 
-</body>
-
-
-</html>
-
-
+</html> 
 
