@@ -1,14 +1,19 @@
 <html>
 
+
 <body style="background-color:lightblue;">
 
+<img id="unclickedLeft"  style="visibility:hidden;" src="ui/unclickedLeft.png" alt="">
+<img id="unclickedRight"  style="visibility:hidden;" src="ui/unclickedRight.png" alt="">
 
-<canvas id="myCanvas" onload = 'move()' onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
+<img id="clickedLeft"  style="visibility:hidden;" src="ui/clickedLeft.png" alt="">
+
+<canvas id="myCanvas" onload = 'move()' onmousedown="down()" onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
     padding-right: 0;
 	
     margin-left: auto;
     margin-right: auto;
-	margin-top: 100px;
+	margin-top: 0px;
     display: block;border:3px solid white;">
 </canvas>
 
@@ -58,9 +63,25 @@ function pauseAudio() {
   x.pause(); 
 } 
 
+
+var clickedOnSomething = 0; 
 function clickfunc(){
+clickedOnSomething = 0; 
+if (canvasX > 620 && canvasX < 700){
+	if (canvasY > 300 && canvasY < 380) {moveLeft = 1; clickedOnSomething = 1;}
+}
+
+
+if (clickedOnSomething == 0){moveLeft = 0;}
 
 }
+
+function down(){
+
+}
+
+
+var moveLeft = 0; 
 
 function move() {
 
@@ -76,6 +97,16 @@ ctx.font = "30px Arial";
 ctx.fillText("X: " + canvasX,3,30);
 ctx.fillText("Y: " + canvasY,3,60);
 
+ctx.fillText("debug: " + moveLeft,3,300);
+
+
+//UI
+ctx.drawImage(unclickedLeft, 630, 308,70,72);
+ctx.drawImage(unclickedRight, 710, 308,70,72);
+
+if (moveLeft == 1){ctx.drawImage(unclickedLeft, 630, 308,70,72);}
+
+
 
 }//End of FUNCTION
 
@@ -83,4 +114,3 @@ ctx.fillText("Y: " + canvasY,3,60);
 </script>
 
 </html> 
-
