@@ -1,0 +1,390 @@
+<html>
+
+<head>
+
+
+<style>
+
+
+html, body {
+
+
+   max-width: 100%;
+
+
+   overflow-y: hidden;
+
+
+	overflow-x: hidden;
+
+
+}
+
+</style>
+
+</head>
+
+
+<body style="background-color:black;">
+
+<h1 style="color:white;" id="demo"></h1>
+
+<canvas id="myCanvas" onload ="move()" onclick = "clickfunc()" onkeydown="uniKeyCode(event)" width="800" height="400" style="border:1px solid #d3d3d3;">
+
+
+</canvas>
+
+
+<img id="piano"  style="visibility:hidden" src="https://i.imgur.com/1VPcV3B.png" alt="">
+
+<img id="zimage"  style="visibility:hidden" src="https://i.imgur.com/ZHJQ25P.png" alt="">
+
+<img id="simage"  style="visibility:hidden" src="https://i.imgur.com/9D8d9z8.png" alt="">
+
+<img id="dimage"  style="visibility:hidden" src="https://i.imgur.com/5wn6eQI.png" alt="">
+
+<img id="gimage"  style="visibility:hidden" src="https://i.imgur.com/DBoYYrm.png" alt="">
+
+<img id="himage"  style="visibility:hidden" src="https://i.imgur.com/L9SBcfd.png" alt="">
+
+<img id="ximage"  style="visibility:hidden" src="https://i.imgur.com/GORxYbq.png" alt="">
+
+
+
+<script>
+
+
+var myVar = setInterval(move, 20);
+
+var clicks = 0; 
+function clickfunc(){
+
+}
+
+
+function sound(src) {
+
+
+   this.sound = document.createElement("audio");
+
+
+   this.sound.src = src;
+
+
+   this.sound.setAttribute("preload", "auto");
+
+
+   this.sound.setAttribute("controls", "none");
+
+
+   this.sound.style.display = "none";
+
+
+   document.body.appendChild(this.sound);
+
+
+   this.play = function(){
+
+
+       this.sound.play();
+
+
+   }
+
+
+   this.stop = function(){
+
+
+       this.sound.pause();
+
+
+   }   
+
+
+}
+
+
+var keys = [];
+var c = document.getElementById("myCanvas");
+
+var ctx = c.getContext("2d");
+
+
+var w = window.innerWidth;
+
+
+var h = window.innerHeight;
+
+
+c.width  = w;
+
+
+c.height = h;
+
+
+var scalew = (w/800);
+
+
+var scaleh = (h-30)/(400);
+
+
+ctx.scale(scalew,scaleh);
+
+
+window.onresize = function(event) {
+
+
+w = window.innerWidth;
+
+
+h = window.innerHeight;
+
+
+
+scalew = (w/800);
+
+
+scaleh = (h-30)/(400);
+
+
+c.width  = w;
+
+
+c.height = h;
+
+
+ctx.scale(scalew,scaleh);
+
+
+};
+
+
+var keyArray = []; 
+
+var recTimer = 0; 
+
+var playbackTimer = 0; 
+
+var recArray = [];
+
+var playback = false;
+function move() {
+//Background Image
+var bgimg = document.getElementById("gr");
+
+ctx.drawImage(piano, 0, 0,800,400);
+
+
+	
+if (keys[90] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(36, 100, 30, 199);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(59, 100, 20, 140);
+z.play();
+
+}
+
+if (keys[88] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(69, 100, 35, 199);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(60, 100, 19, 140);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(94, 100, 19, 140);
+
+x.play();
+
+}
+
+if (keys[67] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(106, 100, 30.5, 199);
+ctx.fillStyle = 'black';
+ctx.fillRect(93, 100, 22, 140);
+c.play();
+
+}
+
+if (keys[86] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(142, 100, 30.5, 199);
+ctx.fillStyle = 'black';
+ctx.fillRect(163, 100, 20, 140);
+v.play();
+
+}
+
+
+if (keys[66] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(176, 100, 30.5, 199);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(163, 100, 20, 140);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(198, 100, 20, 140);
+b.play();
+
+}
+
+
+if (keys[78] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(211, 100, 30.5, 199);
+
+
+ctx.fillStyle = 'black';
+ctx.fillRect(232, 100, 20, 140);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(198, 100, 20, 140);
+
+n.play();
+}
+
+
+if (keys[77] == true){
+
+ctx.fillStyle = 'cyan';
+ctx.fillRect(245, 100, 30.5, 199);
+
+ctx.fillStyle = 'black';
+ctx.fillRect(232, 100, 20, 140);
+m.play();
+
+}
+
+if (keys[83] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(59, 100, 20, 140);
+
+s.play();
+
+}
+
+
+if (keys[68] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(93, 100, 22, 140);
+d.play();
+
+}
+
+
+if (keys[71] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(163, 100, 20, 140);
+
+g.play();
+
+}
+
+
+if (keys[72] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(198, 100, 20, 140);
+
+h.play();
+
+}
+
+
+
+if (keys[74] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(232, 100, 20, 140);
+j.play();
+
+}
+
+if (keys[76] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(303, 100, 20, 140);
+L.play();
+
+}
+
+if (keys[186] == true){
+ctx.fillStyle = 'cyan';
+ctx.fillRect(337, 100, 20, 140);
+postL.play();
+
+}
+
+
+ctx.fillStyle = "white";
+ctx.font = '30px serif';
+ctx.fillText(keyArray, 10,40);
+ctx.fillText(recArray, 10,90);
+
+ctx.fillText(recTimer, 10,390);
+
+ctx.fillText(playbackTimer, 300,390);
+
+
+
+
+recTimer++;
+
+if (recTimer > 300){
+playback = true;
+}
+
+
+if (playback == true){
+playbackTimer++;
+if (playbackTimer == recArray[0]){console.log(keyArray[0]);}
+if (playbackTimer == recArray[1]){console.log(keyArray[1]);}
+	
+}
+
+}//End of FUNCTION
+
+
+//Move events
+
+
+document.onkeydown = function(e) {
+keys[e.keyCode] = true;
+
+keyArray.push(e.keyCode);
+
+recArray.push(recTimer);
+
+s = new sound("s.mp3");
+h = new sound("h.mp3");
+d = new sound("d.mp3");
+z = new sound("z.mp3");
+x = new sound("x.mp3");
+c = new sound("c.mp3");
+v = new sound("v.mp3");
+b = new sound("b.mp3");
+n = new sound("n.mp3");
+m = new sound("m.mp3");
+j = new sound("j.mp3");
+g = new sound("g.mp3");
+//L = new sound("L.mp3");
+//postL = new sound("postL.mp3");
+
+
+}//End of keydown function
+
+ document.onkeyup = function(e) {
+   keys[e.keyCode] = false;
+ }
+
+
+</script>
+
+</body>
+
+
+</html>
+
+
+
