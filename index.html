@@ -1,19 +1,24 @@
 <html>
 
-
 <body style="background-color:lightblue;">
 
 <img id="unclickedLeft"  style="visibility:hidden;" src="ui/unclickedLeft.png" alt="">
 <img id="unclickedRight"  style="visibility:hidden;" src="ui/unclickedRight.png" alt="">
 
 <img id="clickedLeft"  style="visibility:hidden;" src="ui/clickedLeft.png" alt="">
+<img id="clickedRight"  style="visibility:hidden;" src="ui/clickedRight.png" alt="">
+
+<img id="unclickedUp"  style="visibility:hidden;" src="ui/unclickedUp.png" alt="">
+<img id="clickedUp"  style="visibility:hidden;" src="ui/clickedUp.png" alt="">
+
+<img id="gamebg"  style="display:none; visibility:hidden;" src="scene/gamebg.png" alt="">
 
 <canvas id="myCanvas" onload = 'move()' onmousedown="down()" onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
     padding-right: 0;
 	
     margin-left: auto;
     margin-right: auto;
-	margin-top: 0px;
+	margin-top: -50px;
     display: block;border:3px solid white;">
 </canvas>
 
@@ -31,10 +36,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.font = "16px Arial";
-
-var firesound = document.getElementById("myAudio"); 
-
-var reloadsounds = document.getElementById("myAudio2"); 
 
 var canvasX = 0; 
 var canvasY = 0; 
@@ -55,6 +56,7 @@ var reload = 0;
 
 var reloadTimer = 0;
 
+
 function playAudio() { 
   x.play(); 
 } 
@@ -65,46 +67,74 @@ function pauseAudio() {
 
 
 var clickedOnSomething = 0; 
-function clickfunc(){
-clickedOnSomething = 0; 
-if (canvasX > 620 && canvasX < 700){
-	if (canvasY > 300 && canvasY < 380) {moveLeft = 1; clickedOnSomething = 1;}
-}
-
-
-if (clickedOnSomething == 0){moveLeft = 0;}
-
-}
 
 function down(){
+clickedOnSomething = 0; 
+if (canvasX > 620 && canvasX < 700){
+	if (canvasY > 300 && canvasY < 380) {moveLeft = 1; moveRight = 0; clickedOnSomething = 1;}
+}
 
+if (canvasX > 710 && canvasX < 790){
+	if (canvasY > 300 && canvasY < 380) {moveRight = 1; moveLeft = 0; clickedOnSomething = 1;}
+}
+
+if (canvasX > 680 && canvasX < 730){
+	if (canvasY > 260 && canvasY < 320) {moveUp = 1; clickedOnSomething = 1;}
+}
+
+
+if (clickedOnSomething == 0){moveLeft = 0; moveRight = 0; moveUp = 0;}
 }
 
 
 var moveLeft = 0; 
+var moveRight = 0; 
 
+var moveUp = 0; 
+var xpos = 400;
+var ypos = 250; 
+
+var yvel = -10; 
 function move() {
 
 //BG
 ctx.fillStyle = "black";
 ctx.fillRect(0,0, 800, 400);
 
+ctx.drawImage(gamebg, 0, 0,800,400);
 
-ctx.fillStyle = "lightblue";
-ctx.fillRect(canvasX-5,canvasY-5, 10, 10);
 
 ctx.font = "30px Arial";
 ctx.fillText("X: " + canvasX,3,30);
 ctx.fillText("Y: " + canvasY,3,60);
 
-ctx.fillText("debug: " + moveLeft,3,300);
+//ctx.fillText("debug: " + moveLeft,3,300);
 
 
 //UI
-ctx.drawImage(unclickedLeft, 630, 308,70,72);
-ctx.drawImage(unclickedRight, 710, 308,70,72);
+ctx.drawImage(unclickedLeft, 630, 318,70,72);
+ctx.drawImage(unclickedRight, 710, 318,70,72);
 
-if (moveLeft == 1){ctx.drawImage(unclickedLeft, 630, 308,70,72);}
+ctx.drawImage(unclickedUp, 670, 258,70,72);
+
+
+if (moveLeft == 1){ctx.drawImage(clickedLeft, 630, 318,70,72);}
+if (moveRight == 1){ctx.drawImage(clickedRight, 710, 318,70,72);}
+if (moveUp == 1){ctx.drawImage(clickedUp, 670, 258,70,72);}
+
+
+//PLAYER
+ctx.fillStyle = "aqua";
+ctx.fillRect(xpos,ypos, 40, 40);
+
+if (moveLeft == 1){xpos = xpos - 5;}
+if (moveRight == 1){xpos = xpos + 5;}
+
+if (moveUp == 1){
+	ypos = ypos + yvel;
+	yvel = yvel + 0.5; 
+	if (yvel > 10){moveUp = 0; yvel = -10;}
+}
 
 
 
