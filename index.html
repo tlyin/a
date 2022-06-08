@@ -24,13 +24,6 @@
 
 </body>
 
-<audio id="myAudio">
-  <source src="fire.mp3" type="audio/mp3">
-</audio>
-
-<audio id="myAudio2">
-  <source src="reloadsound.mp3" type="audio/mp3">
-</audio>
 
 <script>
 var canvas = document.getElementById("myCanvas");
@@ -56,20 +49,28 @@ var reload = 0;
 
 var reloadTimer = 0;
 
+function sound(src) {
+ this.sound = document.createElement("audio");
+this.sound.src = src;
+this.sound.setAttribute("preload", "auto");
+this.sound.setAttribute("controls", "none");
+this.sound.style.display = "none";
+document.body.appendChild(this.sound);
+this.play = function(){
+this.sound.play();
+}
+this.stop = function(){
+this.sound.pause();
+}   
+}
 
-function playAudio() { 
-  x.play(); 
-} 
-
-function pauseAudio() { 
-  x.pause(); 
-} 
 
 
 var clickedOnSomething = 0; 
 
 function down(){
 clickedOnSomething = 0; 
+
 if (canvasX > 620 && canvasX < 700){
 	if (canvasY > 300 && canvasY < 380) {moveLeft = 1; moveRight = 0; clickedOnSomething = 1;}
 }
@@ -81,6 +82,7 @@ if (canvasX > 710 && canvasX < 790){
 if (canvasX > 680 && canvasX < 730){
 	if (canvasY > 260 && canvasY < 320) {moveUp = 1; clickedOnSomething = 1;}
 }
+
 
 
 if (clickedOnSomething == 0){moveLeft = 0; moveRight = 0; moveUp = 0;}
@@ -95,8 +97,12 @@ var xpos = 400;
 var ypos = 250; 
 
 var yvel = -10; 
+
+backtrack = new sound("sounds/backtrack.mp3");
+
 function move() {
 
+backtrack.play();
 //BG
 ctx.fillStyle = "black";
 ctx.fillRect(0,0, 800, 400);
